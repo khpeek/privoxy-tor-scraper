@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  privoxy:
+    build: ./privoxy
+    ports:
+      - "8118:8118"
+    links:
+      - tor
+
+  tor:
+    build:
+      context: ./tor
+      args:
+        password: ""
+    ports:
+      - "9050:9050"
+      - "9051:9051"
+
+  scraper:
+    build: ./scraper
+    links:
+      - tor
+      - privoxy
